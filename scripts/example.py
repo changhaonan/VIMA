@@ -234,7 +234,7 @@ def main(cfg):
             )
             actions = {k: v.cpu().numpy() for k, v in actions.items()}
             actions = any_slice(actions, np.s_[0, 0])
-            obs, _, done, info = env.step(actions)
+            obs, _, done, _, info = env.step(actions)
             elapsed_steps += 1
             if done:
                 break
@@ -333,7 +333,7 @@ def prepare_prompt(*, prompt: str, prompt_assets: dict, views: list[str]):
                 }
                 # add mask
                 token["mask"] = {
-                    view: np.ones((n_objs_prompt[view],), dtype=np.bool)
+                    view: np.ones((n_objs_prompt[view],), dtype=bool)
                     for view in views
                 }
                 n_objs_to_pad = {
@@ -353,7 +353,7 @@ def prepare_prompt(*, prompt: str, prompt_assets: dict, views: list[str]):
                         for view in views
                     },
                     "mask": {
-                        view: np.zeros((n_objs_to_pad[view]), dtype=np.bool)
+                        view: np.zeros((n_objs_to_pad[view]), dtype=bool)
                         for view in views
                     },
                 }

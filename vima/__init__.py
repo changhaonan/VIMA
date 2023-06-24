@@ -12,5 +12,7 @@ def create_policy_from_ckpt(ckpt_path, device):
         {k.replace("policy.", ""): v for k, v in ckpt["state_dict"].items()},
         strict=True,
     )
+    # FIX
+    policy_instance = policy_instance.to(device)
     policy_instance.eval()
     return policy_instance
